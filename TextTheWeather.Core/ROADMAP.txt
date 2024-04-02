@@ -1,0 +1,7 @@
+To-Do:
+- Environment variables
+- GitHub
+- Integrate with AWS Lambda
+- Clean up code
+- Pull users from AWS DynamoDB
+- 
