@@ -1,5 +1,5 @@
 To-Do:
-- Environment variables
+DONE - Environment variables
 - GitHub
 - Integrate with AWS Lambda
 - Clean up code
