@@ -8,6 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Amazon.Lambda.Core" Version="2.2.0" />
+      <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.1" />
       <PackageReference Include="SendGrid" Version="9.29.2" />
       <PackageReference Include="Twilio" Version="7.0.2" />
     </ItemGroup>
