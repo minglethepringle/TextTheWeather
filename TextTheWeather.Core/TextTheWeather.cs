@@ -46,20 +46,20 @@ public class TextTheWeather
             EmailWeather = true,
             IsPremium = true
         });
-        // recipients.Add(new()
-        // {
-        //     FirstName = "Zach",
-        //     LastName = "Simon",
-        //     Email = "zach.simon027@gmail.com",
-        //     PhoneNumber = "7202336158",
-        //     Latitude = "38.904169160076826",
-        //     Longitude = "-77.02937033057403",
-        //     WeatherFrom = new TimeOnly(7, 0),
-        //     WeatherTo = new TimeOnly(20, 0),
-        //     TextWeather = true,
-        //     EmailWeather = true,
-        //     IsPremium = true
-        // });
+        recipients.Add(new()
+        {
+            FirstName = "Zach",
+            LastName = "Simon",
+            Email = "zach.simon027@gmail.com",
+            PhoneNumber = "7202336158",
+            Latitude = "38.904169160076826",
+            Longitude = "-77.02937033057403",
+            WeatherFrom = new TimeOnly(7, 0),
+            WeatherTo = new TimeOnly(20, 0),
+            TextWeather = true,
+            EmailWeather = true,
+            IsPremium = true
+        });
         
         foreach (User recipient in recipients)
         {
