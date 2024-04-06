@@ -1,9 +1,9 @@
-using TextTheWeather.Core.Entities;
 using TextTheWeather.Core.Entities.OpenWeatherApi;
+using TextTheWeather.Core.Entities.WeatherApi;
 
-namespace TextTheWeather.Core.Repositories.Interfaces.WeatherRepository;
+namespace TextTheWeather.Core.Repositories.Interfaces.Weather;
 
 public interface IWeatherApi
 {
-    Task<OpenWeatherApiResponse> GetWeather(string latitude, string longitude);
+	Task<WeatherApiResponse> GetWeather(string latitude, string longitude);
 }
