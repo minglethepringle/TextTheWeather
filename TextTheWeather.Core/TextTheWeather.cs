@@ -75,7 +75,11 @@ public class TextTheWeather
 			var weatherDescription = processor.GetWeatherDescription();
 			Console.WriteLine(weatherDescription);
 
-			await EmailSender.SendWeather(recipient, weatherDescription);
+			if (recipient.TextWeather)
+				await SmsSender.SendWeather(recipient, weatherDescription);
+
+			if (recipient.EmailWeather)
+				await EmailSender.SendWeather(recipient, weatherDescription);
 		}
 	}
 }
