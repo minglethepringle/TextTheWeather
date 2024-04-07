@@ -6,4 +6,9 @@ public class LocalDateTime
 	{
 		return DateTimeOffset.FromUnixTimeSeconds(unixTime).UtcDateTime.AddSeconds(timezoneOffset);
 	}
+
+	public static DateTime LocalNow(double timezoneOffset)
+	{
+		return DateTime.UtcNow.AddSeconds(timezoneOffset);
+	}
 }

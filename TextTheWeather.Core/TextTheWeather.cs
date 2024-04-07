@@ -5,6 +5,8 @@ using TextTheWeather.Core.Entities.User;
 using TextTheWeather.Core.Entities.WeatherApi;
 using TextTheWeather.Core.Mappers;
 using TextTheWeather.Core.Mappers.Interfaces;
+using TextTheWeather.Core.Processors;
+using TextTheWeather.Core.Processors.Interfaces;
 using TextTheWeather.Core.Repositories.Interfaces.Publisher;
 using TextTheWeather.Core.Repositories.Interfaces.Weather;
 using TextTheWeather.Core.Repositories.Publisher;
@@ -17,6 +19,8 @@ namespace TextTheWeather.Core;
 public class TextTheWeather
 {
 	private IWeatherApiFactory WeatherApiFactory = new WeatherApiFactory();
+	private IWeatherSender SmsSender = new TwilioApi();
+	private IWeatherSender EmailSender = new SendGridApi();
 
 	public async Task FunctionHandler()
 	{
@@ -70,17 +74,12 @@ public class TextTheWeather
 			WeatherApiResponse weather =
 				await WeatherApiFactory.Create().GetWeather(recipient.Latitude, recipient.Longitude);
 
-			// Map
-			IMapper<OpenWeatherApiResponse, string> mapper = new WeatherToHumanMapper(recipient);
-			var humanReadableWeather = mapper.Map(weather);
-			Console.WriteLine(humanReadableWeather);
+			IWeatherDataProcessor processor = new WeatherDataProcessor(weather, recipient);
 
-			// Send weather to Twilio API
-			IWeatherSender sender = new SendGridApi();
+			var weatherDescription = processor.GetWeatherDescription();
+			Console.WriteLine(weatherDescription);
 
-			// ITwilioApi twilioApi = new TwilioApi();
-			// twilioApi.SendSms("8777804236", humanReadableWeather);
-			await sender.SendWeather(recipient, humanReadableWeather);
+			await EmailSender.SendWeather(recipient, weatherDescription);
 		}
 	}
 }

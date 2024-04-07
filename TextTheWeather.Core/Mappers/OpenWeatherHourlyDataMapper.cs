@@ -23,18 +23,19 @@ public class OpenWeatherHourlyDataMapper(SunData sunData) : IWeatherDataMapper<L
 				WindSpeed = (int)openWeatherHourlyData.WindSpeed,
 				CloudsPercentage = (int)openWeatherHourlyData.CloudsPercentage,
 				ProbabilityOfPrecipitation = (int)openWeatherHourlyData.ProbabilityOfPrecipitation,
-				Condition = GetHourlyWeatherCondition(openWeatherHourlyData, dateTime),
+				Condition = IsDay(dateTime) ? GetHourlyWeatherCondition(openWeatherHourlyData, dateTime) : HourlyWeatherCondition.Night,
 				ConditionDescription = openWeatherHourlyData.Weather[0].ConditionDescription.ToTitleCase()
 			};
 		}).ToList();
 	}
 
+	private bool IsDay(DateTime dateTime)
+	{
+		return TimeOnly.FromDateTime(dateTime) >= sunData.Sunrise && TimeOnly.FromDateTime(dateTime) <= sunData.Sunset;
+	}
+
 	private HourlyWeatherCondition GetHourlyWeatherCondition(OpenWeatherHourlyData openWeatherHourlyData, DateTime dateTime)
 	{
-		// If time is outside of sunrise and sunset, return Night
-		if (TimeOnly.FromDateTime(dateTime) < sunData.Sunrise || TimeOnly.FromDateTime(dateTime) > sunData.Sunset)
-			return HourlyWeatherCondition.Night;
-
 		var condition = openWeatherHourlyData.Weather[0].ConditionCategory;
 		var description = openWeatherHourlyData.Weather[0].ConditionDescription;
 
