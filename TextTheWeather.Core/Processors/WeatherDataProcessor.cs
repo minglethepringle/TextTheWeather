@@ -8,8 +8,8 @@ namespace TextTheWeather.Core.Processors;
 
 public class WeatherDataProcessor(WeatherApiResponse weatherApiResponse, User user) : IWeatherDataProcessor
 {
-	private List<HourlyWeatherData> WeatherForToday;
 	private List<HourlyWeatherData> DaytimeWeather;
+	private List<HourlyWeatherData> WeatherForToday;
 
 	public string GetWeatherDescription()
 	{
@@ -17,7 +17,7 @@ public class WeatherDataProcessor(WeatherApiResponse weatherApiResponse, User us
 		DaytimeWeather = GetDaytimeWeather(WeatherForToday);
 
 		return new WeatherDescriptionBuilder()
-			.WithLocalNow(LocalDateTime.LocalNow(weatherApiResponse.TimezoneOffset))
+			.WithLocalNow(LocalDateTime.LocalNow(user.TimezoneOffset))
 			.WithDaytimeWeatherCondition(GetGeneralDaytimeWeatherCondition())
 			.WithMaxTemperature(GetMaxTemp())
 			.WithMinTemperature(GetMinTemp())
@@ -32,7 +32,7 @@ public class WeatherDataProcessor(WeatherApiResponse weatherApiResponse, User us
 	 */
 	private List<HourlyWeatherData> GetWeatherForToday(List<HourlyWeatherData> data)
 	{
-		DateTime localNow = LocalDateTime.LocalNow(weatherApiResponse.TimezoneOffset);
+		DateTime localNow = LocalDateTime.LocalNow(user.TimezoneOffset);
 		DateTime from = new DateTime(localNow.Year, localNow.Month, localNow.Day, user.WeatherFrom.Hour, user.WeatherFrom.Minute, 0);
 		DateTime to = new DateTime(localNow.Year, localNow.Month, localNow.Day, user.WeatherTo.Hour, user.WeatherTo.Minute, 0);
 
