@@ -1,4 +1,3 @@
-using TextTheWeather.Core.Entities.HourlyData;
 using TextTheWeather.Core.Entities.OpenWeatherApi;
 using TextTheWeather.Core.Entities.Sun;
 using TextTheWeather.Core.Entities.WeatherApi;

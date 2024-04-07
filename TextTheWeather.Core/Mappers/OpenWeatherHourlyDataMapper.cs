@@ -1,4 +1,3 @@
-using System.Globalization;
 using TextTheWeather.Core.Entities.HourlyData;
 using TextTheWeather.Core.Entities.OpenWeatherApi;
 using TextTheWeather.Core.Entities.Sun;
@@ -17,12 +16,12 @@ public class OpenWeatherHourlyDataMapper(SunData sunData) : IWeatherDataMapper<L
 			return new HourlyWeatherData
 			{
 				DateTime = dateTime,
-				Temperature = (int)openWeatherHourlyData.Temperature,
-				FeelsLike = (int)openWeatherHourlyData.FeelsLike,
-				HumidityPercentage = (int)openWeatherHourlyData.Humidity,
-				WindSpeed = (int)openWeatherHourlyData.WindSpeed,
-				CloudsPercentage = (int)openWeatherHourlyData.CloudsPercentage,
-				ProbabilityOfPrecipitation = (int)openWeatherHourlyData.ProbabilityOfPrecipitation,
+				Temperature = (int) openWeatherHourlyData.Temperature,
+				FeelsLike = (int) openWeatherHourlyData.FeelsLike,
+				HumidityPercentage = (int) openWeatherHourlyData.Humidity,
+				WindSpeed = (int) openWeatherHourlyData.WindSpeed,
+				CloudsPercentage = (int) openWeatherHourlyData.CloudsPercentage,
+				ProbabilityOfPrecipitation = (int) openWeatherHourlyData.ProbabilityOfPrecipitation,
 				Condition = IsDay(dateTime) ? GetHourlyWeatherCondition(openWeatherHourlyData, dateTime) : HourlyWeatherCondition.Night,
 				ConditionDescription = openWeatherHourlyData.Weather[0].ConditionDescription.ToTitleCase()
 			};

@@ -1,10 +1,6 @@
-using System.Net;
 using Amazon.Lambda.Core;
-using TextTheWeather.Core.Entities.OpenWeatherApi;
 using TextTheWeather.Core.Entities.User;
 using TextTheWeather.Core.Entities.WeatherApi;
-using TextTheWeather.Core.Mappers;
-using TextTheWeather.Core.Mappers.Interfaces;
 using TextTheWeather.Core.Processors;
 using TextTheWeather.Core.Processors.Interfaces;
 using TextTheWeather.Core.Repositories.Interfaces.Publisher;
@@ -18,9 +14,9 @@ namespace TextTheWeather.Core;
 
 public class TextTheWeather
 {
-	private IWeatherApiFactory WeatherApiFactory = new WeatherApiFactory();
-	private IWeatherSender SmsSender = new TwilioApi();
 	private IWeatherSender EmailSender = new SendGridApi();
+	private IWeatherSender SmsSender = new TwilioApi();
+	private IWeatherApiFactory WeatherApiFactory = new WeatherApiFactory();
 
 	public async Task FunctionHandler()
 	{

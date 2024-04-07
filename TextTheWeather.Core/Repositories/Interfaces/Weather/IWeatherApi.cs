@@ -1,4 +1,3 @@
-using TextTheWeather.Core.Entities.OpenWeatherApi;
 using TextTheWeather.Core.Entities.WeatherApi;
 
 namespace TextTheWeather.Core.Repositories.Interfaces.Weather;
