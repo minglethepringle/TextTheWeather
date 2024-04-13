@@ -59,7 +59,8 @@ public class WeatherDescriptionBuilder
 
 	private string GetTodaysDateFormatted()
 	{
-		return LocalNow.ToString("MMMM dd");
+		// Format of Mon 22
+		return LocalNow.ToString("ddd dd");
 	}
 
 	private string GetGeneralDaytimeWeatherCondition()
@@ -90,12 +91,12 @@ public class WeatherDescriptionBuilder
 		int actualTemp = hourWeather.Temperature;
 		int windSpeed = hourWeather.WindSpeed;
 
-		return $"{hour}: {conditionEmoji} {actualTemp}°F @ {windSpeed}mph";
+		return $"{hour}: {conditionEmoji} {actualTemp}° @ {windSpeed}mph";
 	}
 
 	public string Build()
 	{
-		StringBuilder.AppendLine($"{GetTodaysDateFormatted()}: Overall, {GetGeneralDaytimeWeatherCondition()}. High {MaxTemp}°F. Low {MinTemp}°F.");
+		StringBuilder.AppendLine($"{GetTodaysDateFormatted()}: Overall, {GetGeneralDaytimeWeatherCondition()}. {MaxTemp}° / {MinTemp}°.");
 
 		if (WillRainDuringDaytime)
 			StringBuilder.AppendLine("It will rain today - bring an umbrella and wear a rain jacket!");
