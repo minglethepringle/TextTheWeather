@@ -28,21 +28,26 @@ internal class Program
 		await new TextTheWeather().Execute(recipients);
 
 		// MAKE NEW USERS:
-		// Console.WriteLine(new User
-		// {
-		// 	UserId = Guid.NewGuid(),
-		// 	FirstName = "Jiming",
-		// 	LastName = "Xu",
-		// 	Email = "jimingwxu@gmail.com",
-		// 	PhoneNumber = "+15082399085",
-		// 	Latitude = "42.37151655138981",
-		// 	Longitude = "-72.51485503205531",
-		// 	TimezoneOffset = -14400,
-		// 	WeatherFrom = new TimeOnly(9, 0),
-		// 	WeatherTo = new TimeOnly(23, 0),
-		// 	TextWeather = true,
-		// 	EmailWeather = false,
-		// 	IsPremium = false
-		// });
+		// GenerateNewUser();
+	}
+
+	private static void GenerateNewUser()
+	{
+		Console.WriteLine(new User
+		{
+			UserId = Guid.NewGuid(),
+			FirstName = "Walker",
+			LastName = "Whitehouse",
+			Email = "walker.whitehouse@gmail.com",
+			PhoneNumber = "+17817952773",
+			Latitude = "41.29370682483185",
+			Longitude = "-82.21649535909195",
+			TimezoneOffset = -14400,
+			WeatherFrom = new TimeOnly(11, 0),
+			WeatherTo = new TimeOnly(20, 0),
+			TextWeather = true,
+			EmailWeather = false,
+			IsPremium = false
+		});
 	}
 }
