@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace TextTheWeather.Core.Entities.User;
 
 public class User
@@ -15,4 +17,27 @@ public class User
 	public bool TextWeather { get; set; }
 	public bool EmailWeather { get; set; }
 	public bool IsPremium { get; set; }
+
+	public override string ToString()
+	{
+		StringBuilder sb = new StringBuilder();
+
+		sb.AppendLine("User: {");
+		sb.AppendLine($"  UserId: {UserId}");
+		sb.AppendLine($"  FirstName: {FirstName}");
+		sb.AppendLine($"  LastName: {LastName}");
+		sb.AppendLine($"  Email: {Email}");
+		sb.AppendLine($"  PhoneNumber: {PhoneNumber}");
+		sb.AppendLine($"  Latitude: {Latitude}");
+		sb.AppendLine($"  Longitude: {Longitude}");
+		sb.AppendLine($"  TimezoneOffset: {TimezoneOffset}");
+		sb.AppendLine($"  WeatherFrom: {WeatherFrom.ToString("HH:mm:ss")}");
+		sb.AppendLine($"  WeatherTo: {WeatherTo.ToString("HH:mm:ss")}");
+		sb.AppendLine($"  TextWeather: {TextWeather}");
+		sb.AppendLine($"  EmailWeather: {EmailWeather}");
+		sb.AppendLine($"  IsPremium: {IsPremium}");
+		sb.AppendLine("}");
+
+		return sb.ToString();
+	}
 }

@@ -6,14 +6,14 @@ namespace TextTheWeather.Core.Processors;
 
 public class WeatherDescriptionBuilder
 {
-	private StringBuilder StringBuilder = new StringBuilder();
-	private DateTime LocalNow;
+	private int AverageDaytimeWindSpeed;
 	private HourlyWeatherCondition GeneralDaytimeWeatherCondition;
+	private DateTime LocalNow;
 	private int MaxTemp;
 	private int MinTemp;
-	private int AverageDaytimeWindSpeed;
-	private bool WillRainDuringDaytime;
+	private StringBuilder StringBuilder = new StringBuilder();
 	private List<HourlyWeatherData> WeatherForToday;
+	private bool WillRainDuringDaytime;
 
 	public WeatherDescriptionBuilder WithLocalNow(DateTime localNow)
 	{
@@ -64,7 +64,7 @@ public class WeatherDescriptionBuilder
 
 	private string GetGeneralDaytimeWeatherCondition()
 	{
-		var weatherCondition = GeneralDaytimeWeatherCondition switch
+		string weatherCondition = GeneralDaytimeWeatherCondition switch
 		{
 			HourlyWeatherCondition.Sunny => "sunny",
 			HourlyWeatherCondition.PartlyCloudy => "partly cloudy",
@@ -85,12 +85,12 @@ public class WeatherDescriptionBuilder
 
 	private string GetWeatherDescriptionForHour(HourlyWeatherData hourWeather)
 	{
-		var hour = hourWeather.DateTime.ToString("htt");
-		var conditionEmoji = new ConditionToEmojiMapper().Map(hourWeather.Condition);
-		var actualTemp = hourWeather.Temperature;
-		var windSpeed = hourWeather.WindSpeed;
+		string hour = hourWeather.DateTime.ToString("htt");
+		string conditionEmoji = new ConditionToEmojiMapper().Map(hourWeather.Condition);
+		int actualTemp = hourWeather.Temperature;
+		int windSpeed = hourWeather.WindSpeed;
 
-		return $"{hour}: {conditionEmoji} {actualTemp}°F, wind {windSpeed}mph.";
+		return $"{hour}: {conditionEmoji} {actualTemp}°F @ {windSpeed}mph";
 	}
 
 	public string Build()
@@ -104,9 +104,9 @@ public class WeatherDescriptionBuilder
 
 		foreach (HourlyWeatherData hourWeather in WeatherForToday) StringBuilder.AppendLine(GetWeatherDescriptionForHour(hourWeather));
 
-		StringBuilder.AppendLine();
-
-		StringBuilder.Append("Reply STOP to stop receiving weather updates from TextTheWeather.");
+		// StringBuilder.AppendLine();
+		//
+		// StringBuilder.Append("Reply STOP to stop receiving weather updates from TextTheWeather.");
 
 		return StringBuilder.ToString();
 	}
