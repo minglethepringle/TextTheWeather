@@ -1,12 +1,12 @@
+using TextTheWeather.Core.Entities.AppUser;
 using TextTheWeather.Core.Entities.HourlyData;
-using TextTheWeather.Core.Entities.User;
 using TextTheWeather.Core.Entities.WeatherApi;
 using TextTheWeather.Core.Helpers;
 using TextTheWeather.Core.Processors.Interfaces;
 
 namespace TextTheWeather.Core.Processors;
 
-public class WeatherDataProcessor(WeatherApiResponse weatherApiResponse, User user) : IWeatherDataProcessor
+public class WeatherDataProcessor(WeatherApiResponse weatherApiResponse, AppUser appUser) : IWeatherDataProcessor
 {
 	private List<HourlyWeatherData> DaytimeWeather;
 	private List<HourlyWeatherData> WeatherForToday;
@@ -17,7 +17,7 @@ public class WeatherDataProcessor(WeatherApiResponse weatherApiResponse, User us
 		DaytimeWeather = GetDaytimeWeather(WeatherForToday);
 
 		return new WeatherDescriptionBuilder()
-			.WithLocalNow(LocalDateTime.LocalNow(user.TimezoneOffset))
+			.WithLocalNow(LocalDateTime.LocalNow(appUser.TimezoneOffset))
 			.WithDaytimeWeatherCondition(GetGeneralDaytimeWeatherCondition())
 			.WithMaxTemperature(GetMaxTemp())
 			.WithMinTemperature(GetMinTemp())
@@ -32,9 +32,9 @@ public class WeatherDataProcessor(WeatherApiResponse weatherApiResponse, User us
 	 */
 	private List<HourlyWeatherData> GetWeatherForToday(List<HourlyWeatherData> data)
 	{
-		DateTime localNow = LocalDateTime.LocalNow(user.TimezoneOffset);
-		DateTime from = new DateTime(localNow.Year, localNow.Month, localNow.Day, user.WeatherFrom.Hour, user.WeatherFrom.Minute, 0);
-		DateTime to = new DateTime(localNow.Year, localNow.Month, localNow.Day, user.WeatherTo.Hour, user.WeatherTo.Minute, 0);
+		DateTime localNow = LocalDateTime.LocalNow(appUser.TimezoneOffset);
+		DateTime from = new DateTime(localNow.Year, localNow.Month, localNow.Day, appUser.WeatherFrom.Hour, appUser.WeatherFrom.Minute, 0);
+		DateTime to = new DateTime(localNow.Year, localNow.Month, localNow.Day, appUser.WeatherTo.Hour, appUser.WeatherTo.Minute, 0);
 
 		return data
 			.FindAll(x => x.DateTime >= from && x.DateTime <= to);

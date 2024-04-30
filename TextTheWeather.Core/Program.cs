@@ -1,4 +1,4 @@
-﻿using TextTheWeather.Core.Entities.User;
+﻿using TextTheWeather.Core.Entities.AppUser;
 
 namespace TextTheWeather.Core;
 
@@ -6,10 +6,10 @@ internal class Program
 {
 	private static async Task Main(string[] args)
 	{
-		var recipients = new List<User>();
-		recipients.Add(new User
+		List<AppUser> recipients = new List<AppUser>();
+		recipients.Add(new AppUser
 		{
-			UserId = Guid.Parse("c61fc2cc-bcd3-440f-b975-ddc47e536ea0"),
+			Id = 2,
 			FirstName = "Mingle",
 			LastName = "Li",
 			Email = "limingle5@gmail.com",
@@ -20,12 +20,14 @@ internal class Program
 			WeatherFrom = new TimeOnly(7, 0),
 			WeatherTo = new TimeOnly(20, 0),
 			TextWeather = true,
-			EmailWeather = false,
-			IsPremium = true
+			EmailWeather = false
 		});
 
 		// TEST LOCALLY:
 		await new TextTheWeather().Execute(recipients);
+
+		// SIMULATE LOCAL LAMBDA:
+		// await new TextTheWeather().FunctionHandler();
 
 		// MAKE NEW USERS:
 		// GenerateNewUser();
@@ -33,9 +35,9 @@ internal class Program
 
 	private static void GenerateNewUser()
 	{
-		Console.WriteLine(new User
+		Console.WriteLine(new AppUser
 		{
-			UserId = Guid.NewGuid(),
+			Id = 235,
 			FirstName = "Walker",
 			LastName = "Whitehouse",
 			Email = "walker.whitehouse@gmail.com",
@@ -46,8 +48,7 @@ internal class Program
 			WeatherFrom = new TimeOnly(11, 0),
 			WeatherTo = new TimeOnly(20, 0),
 			TextWeather = true,
-			EmailWeather = false,
-			IsPremium = false
+			EmailWeather = false
 		});
 	}
 }
