@@ -7,6 +7,7 @@ import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from 'firebase/auth
 import { auth } from '../../firebase'
 import { verify } from 'crypto'
 import VerificationInput from 'react-verification-input'
+import { useNavigate } from 'react-router-dom'
 
 const navigation = [
     { name: 'Product', href: '#' },
@@ -20,6 +21,7 @@ export default function HomePage() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [verificationCodeModalOpen, setVerificationCodeModalOpen] = useState(false);
     const [verificationCodeInputValue, setVerificationCodeInputValue] = useState('');
+    const navigate = useNavigate();
 
     function handlePhoneNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
         // Validate that the input is a valid phone number
@@ -63,7 +65,6 @@ export default function HomePage() {
             'size': 'invisible',
             'callback': () => {
                 // reCAPTCHA solved, allow signInWithPhoneNumber.
-                alert("Recaptcha solved");
             }
         });
 
@@ -73,9 +74,12 @@ export default function HomePage() {
 
     function checkVerificationCode(code: string) {
         // @ts-ignore
-        window.confirmationResult.confirm(code).then((result) => {
+        window.confirmationResult.confirm(code).then(() => {
             // User signed in successfully
             alert("User signed in successfully");
+
+            // Redirect to Account page
+            navigate('/my-account');
         }).catch((error: Error) => {
             // User could not sign in
             alert(error.message);
