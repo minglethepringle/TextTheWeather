@@ -8,19 +8,11 @@ import { auth } from '../../firebase'
 import { verify } from 'crypto'
 import VerificationInput from 'react-verification-input'
 import { useNavigate } from 'react-router-dom'
-
-const navigation = [
-    { name: 'Product', href: '#' },
-    { name: 'Features', href: '#' },
-    { name: 'Marketplace', href: '#' },
-    { name: 'Company', href: '#' },
-]
+var screenshot = require("../../assets/screenshot.jpg");
 
 export default function HomePage() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [verificationCodeModalOpen, setVerificationCodeModalOpen] = useState(false);
-    const [verificationCodeInputValue, setVerificationCodeInputValue] = useState('');
     const navigate = useNavigate();
 
     function handlePhoneNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -36,7 +28,8 @@ export default function HomePage() {
     }
 
     async function onSignIn() {
-        alert(phoneNumber);
+        if (phoneNumber.length == 0) return;
+
         // @ts-ignore
         signInWithPhoneNumber(auth, "+1" + phoneNumber, window.recaptchaVerifier)
             .then((confirmationResult) => {
@@ -44,7 +37,6 @@ export default function HomePage() {
                 // user in with confirmationResult.confirm(code).
                 // @ts-ignore
                 window.confirmationResult = confirmationResult;
-                alert("SMS sent");
 
                 // Set the verification code modal open
                 setVerificationCodeModalOpen(true);
@@ -75,9 +67,6 @@ export default function HomePage() {
     function checkVerificationCode(code: string) {
         // @ts-ignore
         window.confirmationResult.confirm(code).then(() => {
-            // User signed in successfully
-            alert("User signed in successfully");
-
             // Redirect to Account page
             navigate('/my-account');
         }).catch((error: Error) => {
@@ -95,44 +84,7 @@ export default function HomePage() {
 
     return (
         <>
-            <div className="bg-white">
-                <header className="absolute inset-x-0 top-0 z-50">
-                    <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-                        <div className="flex lg:flex-1">
-                            <a href="#" className="-m-1.5 p-1.5">
-                                <span className="sr-only">Your Company</span>
-                                <img
-                                    className="h-8 w-auto"
-                                    src="https://tailwindui.starxg.com/img/logos/mark.svg?color=indigo&shade=600"
-                                    alt=""
-                                />
-                            </a>
-                        </div>
-                        <div className="flex lg:hidden">
-                            <button
-                                type="button"
-                                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-                                onClick={() => setMobileMenuOpen(true)}
-                            >
-                                <span className="sr-only">Open main menu</span>
-                                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                            </button>
-                        </div>
-                        <div className="hidden lg:flex lg:gap-x-12">
-                            {navigation.map((item) => (
-                                <a key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-gray-900">
-                                    {item.name}
-                                </a>
-                            ))}
-                        </div>
-                        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                                Log in <span aria-hidden="true">&rarr;</span>
-                            </a>
-                        </div>
-                    </nav>
-                </header>
-
+            <div className="bg-white h-screen px-10">
                 <div className="relative isolate pt-14">
                     <svg
                         className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
@@ -158,7 +110,7 @@ export default function HomePage() {
                         </svg>
                         <rect width="100%" height="100%" strokeWidth={0} fill="url(#83fd4e5a-9d52-42fc-97b6-718e5d7ee527)" />
                     </svg>
-                    <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8 lg:py-40">
+                    <div className="mx-auto max-w-7xl px-6 lg:flex lg:items-center lg:gap-x-10 lg:px-8">
                         <div className="mx-auto max-w-2xl lg:mx-0 lg:flex-auto">
                             <h1 className="mt-10 max-w-lg text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                                 The daily weather,<br />made easy.
@@ -217,7 +169,7 @@ export default function HomePage() {
                                     transform="translate(24 24)"
                                     clipPath="url(#2ade4387-9c63-4fc4-b754-10e687a0d332)"
                                 >
-                                    <img src="https://tailwindui.starxg.com/img/component-images/mobile-app-screenshot.png" alt="" />
+                                    <img src={screenshot} alt="" />
                                 </foreignObject>
                             </svg>
                         </div>
@@ -270,6 +222,9 @@ export default function HomePage() {
                                             character: 'rounded-md border border-gray-500 px-3 text-gray-900',
                                         }}
                                         onComplete={checkVerificationCode} />
+                                    </div>
+                                    <div className="text-xs text-center text-gray-500">
+                                        <small><i>By using our application and entering the verification code, you consent to receive text messages from TextTheWeather. Message and data rates may apply.</i></small>
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>
