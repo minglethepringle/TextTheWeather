@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextTheWeather.Core", "TextTheWeather.Core\TextTheWeather.Core.csproj", "{BAA82E4F-8E7B-4F54-9F60-A654FB191184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextTheWeather.Api", "TextTheWeather.Api\TextTheWeather.Api.csproj", "{79C1AA8E-0833-4CBB-97D9-1EAF9D8319BD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
