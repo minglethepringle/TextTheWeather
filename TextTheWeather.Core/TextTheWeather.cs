@@ -16,10 +16,10 @@ namespace TextTheWeather.Core;
 
 public class TextTheWeather
 {
+	private IWeatherApi WeatherApi = new WeatherGovApi();
 	private IAppUserRepository AppUserRepository = new AppUserRepository();
 	private IWeatherSender EmailSender = new SendGridApi();
-	private IWeatherSender SmsSender = new TwilioApi();
-	private IWeatherApiFactory WeatherApiFactory = new WeatherApiFactory();
+	private IWeatherSender SmsSender = new AwsSnsClient();
 
 	/**
 	 * Handles the lambda function and input from Supabase
@@ -37,7 +37,7 @@ public class TextTheWeather
 		{
 			// Get weather
 			WeatherApiResponse weather =
-				await WeatherApiFactory.Create().GetWeather(recipient.Latitude, recipient.Longitude);
+				await WeatherApi.GetWeather(recipient.Latitude, recipient.Longitude);
 
 			IWeatherDataProcessor processor = new WeatherDataProcessor(weather, recipient);
 
@@ -49,6 +49,9 @@ public class TextTheWeather
 
 			if (recipient.EmailWeather)
 				await EmailSender.SendWeather(recipient, weatherDescription);
+			
+			// Wait 1 minute before sending the next message
+			await Task.Delay(1000 * 60);
 		}
 	}
 }

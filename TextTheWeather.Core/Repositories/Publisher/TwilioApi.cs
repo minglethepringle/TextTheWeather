@@ -13,9 +13,9 @@ public class TwilioApi : IWeatherSender
 		string authToken = EnvironmentVariables.TwilioAuthToken;
 		TwilioClient.Init(accountSid, authToken);
 
-		CreateMessageOptions messageOptions = new CreateMessageOptions(
-			new PhoneNumber(appUser.PhoneNumber));
-		messageOptions.From = new PhoneNumber(EnvironmentVariables.TwilioPhoneNumber);
+		CreateMessageOptions messageOptions = new(
+			new(appUser.PhoneNumber));
+		messageOptions.From = new(EnvironmentVariables.TwilioPhoneNumber);
 		messageOptions.Body = weatherText;
 
 		MessageResource resource = await MessageResource.CreateAsync(messageOptions);

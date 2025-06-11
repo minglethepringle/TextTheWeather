@@ -10,12 +10,12 @@ public class SendGridApi : IWeatherSender
 	public async Task SendWeather(Entities.AppUser.AppUser appUser, string weatherText)
 	{
 		string apiKey = EnvironmentVariables.SendGridApiKey;
-		SendGridClient client = new SendGridClient(apiKey);
+		SendGridClient client = new(apiKey);
 
-		EmailAddress from = new EmailAddress("weather@texttheweather.com", "TextTheWeather");
+		EmailAddress from = new("weather@texttheweather.com", "TextTheWeather");
 		string today = LocalDateTime.LocalNow(appUser.TimezoneOffset).ToString("MMMM dd");
 		string subject = $"Weather for {today}";
-		EmailAddress to = new EmailAddress(appUser.Email, $"{appUser.FirstName} {appUser.LastName}");
+		EmailAddress to = new(appUser.Email, $"{appUser.FirstName} {appUser.LastName}");
 
 		SendGridMessage msg = MailHelper.CreateSingleEmail(from, to, subject, weatherText, null);
 		Response sendEmailAsync = await client.SendEmailAsync(msg);

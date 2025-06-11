@@ -5,9 +5,9 @@ namespace TextTheWeather.Core.Entities.OpenWeatherApi;
 public class OpenWeatherApiResponse
 {
     [JsonPropertyName("lat")]
-    public decimal Lat { get; set; }
+    public string Lat { get; set; }
     [JsonPropertyName("lon")]
-    public decimal Lon { get; set; }
+    public string Lon { get; set; }
     [JsonPropertyName("timezone")]
     public string Timezone { get; set; }
     [JsonPropertyName("timezone_offset")]

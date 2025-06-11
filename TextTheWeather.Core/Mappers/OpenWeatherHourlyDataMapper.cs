@@ -17,13 +17,9 @@ public class OpenWeatherHourlyDataMapper(SunData sunData) : IWeatherDataMapper<L
 			{
 				DateTime = dateTime,
 				Temperature = (int) openWeatherHourlyData.Temperature,
-				FeelsLike = (int) openWeatherHourlyData.FeelsLike,
-				HumidityPercentage = (int) openWeatherHourlyData.Humidity,
 				WindSpeed = (int) openWeatherHourlyData.WindSpeed,
-				CloudsPercentage = (int) openWeatherHourlyData.CloudsPercentage,
 				ProbabilityOfPrecipitation = (int) openWeatherHourlyData.ProbabilityOfPrecipitation,
 				Condition = IsDay(dateTime) ? GetHourlyWeatherCondition(openWeatherHourlyData, dateTime) : HourlyWeatherCondition.Night,
-				ConditionDescription = openWeatherHourlyData.Weather[0].ConditionDescription.ToTitleCase()
 			};
 		}).ToList();
 	}
