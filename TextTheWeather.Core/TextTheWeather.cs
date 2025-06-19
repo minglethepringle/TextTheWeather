@@ -17,41 +17,24 @@ namespace TextTheWeather.Core;
 public class TextTheWeather
 {
 	private IWeatherApi WeatherApi = new WeatherGovApi();
-	private IAppUserRepository AppUserRepository = new AppUserRepository();
 	private IWeatherSender EmailSender = new SendGridApi();
 	private IWeatherSender SmsSender = new AwsSnsClient();
 
-	/**
-	 * Handles the lambda function and input from Supabase
-	 */
-	public async Task FunctionHandler()
+	public async Task FunctionHandler(AppUser recipient)
 	{
-		List<AppUser> recipients = await AppUserRepository.GetUsersAsync();
+		// Get weather
+		WeatherApiResponse weather =
+			await WeatherApi.GetWeather(recipient.Latitude, recipient.Longitude);
 
-		await Execute(recipients);
-	}
+		IWeatherDataProcessor processor = new WeatherDataProcessor(weather, recipient);
 
-	public async Task Execute(List<AppUser> recipients)
-	{
-		foreach (AppUser recipient in recipients)
-		{
-			// Get weather
-			WeatherApiResponse weather =
-				await WeatherApi.GetWeather(recipient.Latitude, recipient.Longitude);
+		string weatherDescription = processor.GetWeatherDescription();
+		Console.WriteLine(weatherDescription);
 
-			IWeatherDataProcessor processor = new WeatherDataProcessor(weather, recipient);
+		if (recipient.TextWeather)
+			await SmsSender.SendWeather(recipient, weatherDescription);
 
-			string weatherDescription = processor.GetWeatherDescription();
-			Console.WriteLine(weatherDescription);
-
-			if (recipient.TextWeather)
-				await SmsSender.SendWeather(recipient, weatherDescription);
-
-			if (recipient.EmailWeather)
-				await EmailSender.SendWeather(recipient, weatherDescription);
-			
-			// Wait 1 minute before sending the next message
-			await Task.Delay(1000 * 60);
-		}
+		if (recipient.EmailWeather)
+			await EmailSender.SendWeather(recipient, weatherDescription);
 	}
 }

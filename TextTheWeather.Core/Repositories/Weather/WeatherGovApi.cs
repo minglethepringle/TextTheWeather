@@ -32,8 +32,10 @@ public class WeatherGovApi : IWeatherApi
             await HttpClient.GetStringAsync($"https://api.weather.gov/points/{latitude},{longitude}"));
 
         // Weather.gov API second request
+        string forecastHourlyUrl = response.properties.forecastHourly.ToString();
+        Console.WriteLine($"Forecast Hourly URL: {forecastHourlyUrl}");
         dynamic weatherInfo = JsonConvert.DeserializeObject<dynamic>(
-            await HttpClient.GetStringAsync(response.properties.forecastHourly.ToString()));
+            await HttpClient.GetStringAsync(forecastHourlyUrl));
 
         // Get properties.periods 24 entries
         List<WeatherGovHourlyData> hourlyWeather = ((JArray)weatherInfo.properties.periods)
@@ -47,6 +49,9 @@ public class WeatherGovApi : IWeatherApi
             Sunrise = TimeOnly.FromDateTime(DateTime.Parse(sunInfo.results.sunrise.ToString())),
             Sunset = TimeOnly.FromDateTime(DateTime.Parse(sunInfo.results.sunset.ToString()))
         };
+
+        Console.WriteLine($"Sunrise: {sunData.Sunrise}, Sunset: {sunData.Sunset}");
+        Console.WriteLine($"Count of hourly weather data: {hourlyWeather.Count}");
 
         return new WeatherApiResponse
         {

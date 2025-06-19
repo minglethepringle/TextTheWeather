@@ -1,7 +1,6 @@
 To-Do:
 DONE - Environment variables
 DONE - GitHub
-- Integrate with AWS Lambda
+DONE - Integrate with AWS Lambda
+DONE - Pull users from AWS DynamoDB
 - Clean up code
-- Pull users from AWS DynamoDB
-- 

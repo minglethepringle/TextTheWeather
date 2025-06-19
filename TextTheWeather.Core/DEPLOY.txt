@@ -1,0 +1,4 @@
+How to deploy:
+
+1. dotnet lambda package -o function.zip
+2. Upload zip to AWS Lambda
