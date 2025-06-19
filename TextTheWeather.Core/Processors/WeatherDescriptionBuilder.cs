@@ -96,6 +96,9 @@ public class WeatherDescriptionBuilder
 
 	public string Build()
 	{
+		if (WeatherForToday == null || WeatherForToday.Count == 0)
+			throw new Exception("Weather for today is not set or empty!");
+
 		StringBuilder.AppendLine($"{GetTodaysDateFormatted()}: Overall, {GetGeneralDaytimeWeatherCondition()}. {MaxTemp}° / {MinTemp}°.");
 
 		if (WillRainDuringDaytime)

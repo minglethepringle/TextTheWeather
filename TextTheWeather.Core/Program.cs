@@ -15,8 +15,7 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        List<AppUser> recipients = new List<AppUser>();
-        recipients.Add(new AppUser
+        AppUser recipient = new AppUser
         {
             Id = 2,
             FirstName = "Mingle",
@@ -30,10 +29,10 @@ internal class Program
             WeatherTo = new TimeOnly(22, 0),
             TextWeather = true,
             EmailWeather = false
-        });
+        };
 
         // TEST LOCALLY:
-        // await new TextTheWeather().Execute(recipients);
+        await new TextTheWeather().FunctionHandler(recipient);
 
         // SIMULATE LOCAL LAMBDA:
         // await new TextTheWeather().FunctionHandler();

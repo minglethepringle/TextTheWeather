@@ -24,6 +24,6 @@ public class AwsSnsClient : IWeatherSender
         };
 
         PublishResponse response = await snsClient.PublishAsync(request);
-        Console.WriteLine($"Message ID: {response.MessageId}");
+        Console.WriteLine($"SNS Message ID: {response.MessageId}");
     }
 }

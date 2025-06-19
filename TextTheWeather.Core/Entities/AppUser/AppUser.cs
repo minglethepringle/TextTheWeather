@@ -1,24 +1,22 @@
 using System.Text;
-using Supabase.Postgrest.Attributes;
-using Supabase.Postgrest.Models;
+using System.Text.Json.Serialization;
 
 namespace TextTheWeather.Core.Entities.AppUser;
 
-[Table("user")]
-public class AppUser : BaseModel
+public class AppUser
 {
-	[PrimaryKey("id")] public int Id { get; set; }
-	[Column("first_name")] public string FirstName { get; set; }
-	[Column("last_name")] public string LastName { get; set; }
-	[Column("email")] public string Email { get; set; }
-	[Column("phone_number")] public string PhoneNumber { get; set; }
-	[Column("latitude")] public string Latitude { get; set; }
-	[Column("longitude")] public string Longitude { get; set; }
-	[Column("timezone_offset")] public double TimezoneOffset { get; set; }
-	[Column("weather_from")] public TimeOnly WeatherFrom { get; set; }
-	[Column("weather_to")] public TimeOnly WeatherTo { get; set; }
-	[Column("text_weather")] public bool TextWeather { get; set; }
-	[Column("email_weather")] public bool EmailWeather { get; set; }
+	[JsonPropertyName("id")] public int Id { get; set; }
+	[JsonPropertyName("first_name")] public string FirstName { get; set; }
+	[JsonPropertyName("last_name")] public string LastName { get; set; }
+	[JsonPropertyName("email")] public string Email { get; set; }
+	[JsonPropertyName("phone_number")] public string PhoneNumber { get; set; }
+	[JsonPropertyName("latitude")] public string Latitude { get; set; }
+	[JsonPropertyName("longitude")] public string Longitude { get; set; }
+	[JsonPropertyName("timezone_offset")] public double TimezoneOffset { get; set; }
+	[JsonPropertyName("weather_from")] public TimeOnly WeatherFrom { get; set; }
+	[JsonPropertyName("weather_to")] public TimeOnly WeatherTo { get; set; }
+	[JsonPropertyName("text_weather")] public bool TextWeather { get; set; }
+	[JsonPropertyName("email_weather")] public bool EmailWeather { get; set; }
 
 	public override string ToString()
 	{

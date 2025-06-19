@@ -5,9 +5,9 @@ namespace TextTheWeather.Core.Entities.WeatherGovApi;
 public class WeatherGovHourlyData
 {
     [JsonPropertyName("startTime")]
-    public DateTime StartTime { get; set; }
+    public string StartTime { get; set; }
     [JsonPropertyName("endTime")]
-    public DateTime EndTime { get; set; }
+    public string EndTime { get; set; }
     [JsonPropertyName("temperature")]
     public int Temperature { get; set; }
     [JsonPropertyName("probabilityOfPrecipitation")]
@@ -16,6 +16,13 @@ public class WeatherGovHourlyData
     public string WindSpeed { get; set; }
     [JsonPropertyName("shortForecast")]
     public string ShortForecast { get; set; }
+
+    public override string ToString()
+    {
+        return $"Start: {StartTime}, End: {EndTime}, Temp: {Temperature}°F, " +
+               $"Precipitation: {ProbabilityOfPrecipitation.Value}%, Wind: {WindSpeed}, " +
+               $"Forecast: {ShortForecast}";
+    }
 }
 
 public class ProbabilityOfPrecipitation

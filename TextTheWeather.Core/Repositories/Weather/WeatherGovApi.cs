@@ -23,23 +23,28 @@ public class WeatherGovApi : IWeatherApi
         HttpClient.DefaultRequestHeaders.Add("User-Agent", "texttheweather.com");
         HttpClient.DefaultRequestHeaders.Add("Accept", "application/geo+json");
 
+        JsonSerializerSettings settings = new()
+        {
+            DateParseHandling = DateParseHandling.None
+        };
+
         // Sunset-Sunrise API
         dynamic sunInfo = JsonConvert.DeserializeObject<dynamic>(
-            await HttpClient.GetStringAsync($"https://api.sunrisesunset.io/json?lat={latitude}&lng={longitude}"));
+            await HttpClient.GetStringAsync($"https://api.sunrisesunset.io/json?lat={latitude}&lng={longitude}"), settings);
 
         // Weather.gov API first request
         dynamic response = JsonConvert.DeserializeObject<dynamic>(
-            await HttpClient.GetStringAsync($"https://api.weather.gov/points/{latitude},{longitude}"));
+            await HttpClient.GetStringAsync($"https://api.weather.gov/points/{latitude},{longitude}"), settings);
 
         // Weather.gov API second request
         string forecastHourlyUrl = response.properties.forecastHourly.ToString();
         Console.WriteLine($"Forecast Hourly URL: {forecastHourlyUrl}");
         dynamic weatherInfo = JsonConvert.DeserializeObject<dynamic>(
-            await HttpClient.GetStringAsync(forecastHourlyUrl));
+            await HttpClient.GetStringAsync(forecastHourlyUrl), settings);
 
-        // Get properties.periods 24 entries
+        // Get properties.periods 2 4 entries
         List<WeatherGovHourlyData> hourlyWeather = ((JArray)weatherInfo.properties.periods)
-            .Select(p => JsonConvert.DeserializeObject<WeatherGovHourlyData>(p.ToString()))
+            .Select(p => JsonConvert.DeserializeObject<WeatherGovHourlyData>(p.ToString(), settings))
             // Grab the first 24 entries
             .Take(24)
             .ToList();
@@ -51,7 +56,6 @@ public class WeatherGovApi : IWeatherApi
         };
 
         Console.WriteLine($"Sunrise: {sunData.Sunrise}, Sunset: {sunData.Sunset}");
-        Console.WriteLine($"Count of hourly weather data: {hourlyWeather.Count}");
 
         return new WeatherApiResponse
         {
